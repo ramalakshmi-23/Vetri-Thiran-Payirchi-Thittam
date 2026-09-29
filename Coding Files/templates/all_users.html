@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy | Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+<main class="container wide">
+    <section class="hero">
+        <div>
+            <span class="badge">ADMIN DASHBOARD</span>
+            <h1>All Users</h1>
+            <p>View stored FitBuddy profiles and plan versions.</p>
+        </div>
+        <a class="nav-link" href="/">Home</a>
+    </section>
+
+    {% if not users %}
+    <section class="card">
+        <h2>No users yet</h2>
+        <p class="muted">Create a plan from the home page to populate this dashboard.</p>
+    </section>
+    {% endif %}
+
+    {% for user in users %}
+    <section class="user-card">
+        <div class="user-header">
+            <div>
+                <h2>{{ user.username }}</h2>
+                <p>{{ user.user_id }} · {{ user.goal.replace('_', ' ')|title }} · {{ user.intensity|title }}</p>
+            </div>
+            <span class="badge">{{ user.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+        </div>
+
+        <div class="small-grid">
+            <div><span>Age</span><strong>{{ user.age }}</strong></div>
+            <div><span>Weight</span><strong>{{ user.weight }} kg</strong></div>
+            <div><span>Feedback</span><strong>{{ 'Yes' if user.feedback else 'No' }}</strong></div>
+            <div><span>Updated plan</span><strong>{{ 'Yes' if user.updated_plan else 'No' }}</strong></div>
+        </div>
+
+        <h3>Original Plan</h3>
+        <pre class="plan compact">{{ user.original_plan }}</pre>
+
+        {% if user.updated_plan %}
+        <h3>Updated Plan</h3>
+        <pre class="plan compact">{{ user.updated_plan }}</pre>
+        {% endif %}
+    </section>
+    {% endfor %}
+</main>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy | AI Fitness Plan Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+<main class="container">
+    <section class="hero">
+        <div>
+            <span class="badge">AI WELLNESS PLANNER</span>
+            <h1>FitBuddy</h1>
+            <p>Create a personalized 7-day wellness and workout plan with Gemini AI.</p>
+        </div>
+        <a class="nav-link" href="/view-all-users">Admin View</a>
+    </section>
+
+    {% if error %}
+    <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <section class="card">
+        <h2>Create your plan</h2>
+        <p class="muted">Enter your details. FitBuddy provides general wellness guidance, not medical advice.</p>
+
+        <form action="/generate-workout" method="post" class="form-grid">
+            <label>
+                Name
+                <input name="username" type="text" required maxlength="100" placeholder="Your name">
+            </label>
+
+            <label>
+                User ID
+                <input name="user_id" type="text" required maxlength="50" placeholder="e.g. FB001">
+            </label>
+
+            <label>
+                Age
+                <input name="age" type="number" min="13" max="100" required>
+            </label>
+
+            <label>
+                Weight (kg)
+                <input name="weight" type="number" min="1" max="500" step="0.1" required>
+            </label>
+
+            <label>
+                Fitness goal
+                <select name="goal" required>
+                    <option value="general_wellness">General wellness</option>
+                    <option value="weight_loss">Weight management</option>
+                    <option value="muscle_gain">Strength / muscle development</option>
+                    <option value="flexibility">Flexibility / mobility</option>
+                </select>
+            </label>
+
+            <label>
+                Workout intensity
+                <select name="intensity" required>
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </label>
+
+            <button class="primary full" type="submit">Generate 7-Day Plan</button>
+        </form>
+    </section>
+
+    <section class="notice">
+        <strong>Safety note:</strong> This demo gives general wellness information.
+        Stop activity if you feel pain, dizziness, faintness, or unusual symptoms,
+        and seek appropriate adult or professional guidance when needed.
+    </section>
+</main>
+</body>
+</html>
